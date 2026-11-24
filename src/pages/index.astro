@@ -21,7 +21,7 @@ const remainingPosts = posts.slice(3);
 	<head>
 		<BaseHead title={`${SITE_TITLE} - ${SITE_TAGLINE}`} description={SITE_DESCRIPTION} />
 	</head>
-	<body class="bg-[#0b0f19] min-h-screen flex flex-col text-slate-200">
+	<body class="bg-[#0b0f19] min-h-screen flex flex-col text-slate-200 overflow-x-hidden">
 		<Header />
 
 		<main class="grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-10">
@@ -96,11 +96,11 @@ const remainingPosts = posts.slice(3);
 										<span>&bull;</span>
 										<FormattedDate date={featuredPost.data.pubDate} />
 									</div>
-									<h2 class="text-xl sm:text-2xl font-extrabold text-white group-hover:text-amber-400 transition leading-snug mb-3">
+									<h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white group-hover:text-amber-400 transition leading-snug mb-3">
 										<a href={`/blog/${featuredPost.id}/`}>
 											{featuredPost.data.title}
 										</a>
-									</h2>
+									</h1>
 									<p class="text-slate-300 text-sm leading-relaxed line-clamp-3">
 										{featuredPost.data.description}
 									</p>
