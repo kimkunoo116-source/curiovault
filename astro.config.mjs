@@ -8,7 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://tenmiencuaban.com',
+  site: 'https://curiovault.pages.dev',
   integrations: [mdx(), sitemap()],
 
   fonts: [

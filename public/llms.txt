@@ -1,0 +1,18 @@
+# CurioVault
+
+> CurioVault is an authoritative digital archive and publication exploring fascinating untold human stories, bizarre history, earth anomalies, and mind-blowing scientific phenomena, paired with documentary video features.
+
+## Featured Curated Articles
+
+- [The 2,000-Year-Old Analog Computer That Baffled Modern Science](https://curiovault.pages.dev/blog/antikythera-mechanism/): Investigation into the ancient Greek Antikythera Mechanism, an astronomical gear calculator 1,000 years ahead of its time.
+- [The Sailing Stones of Death Valley](https://curiovault.pages.dev/blog/sailing-stones-death-valley/): How massive dolomite boulders glide across California's desert playa driven by thin ice sheets and wind.
+- [The Lost Amber Room: The Eighth Wonder of the World That Vanished in WWII](https://curiovault.pages.dev/blog/the-lost-amber-room/): The mystery of the stolen Prussian-Russian amber chamber looted by Nazi troops in 1941.
+- [The Voynich Manuscript: The 600-Year-Old Book Nobody Can Read](https://curiovault.pages.dev/blog/voynich-manuscript/): Analysis of the undeciphered 15th-century vellum codex written in an unknown cipher.
+- [The Carrington Event of 1859](https://curiovault.pages.dev/blog/carrington-event-1859/): What happens when a monster solar coronal mass ejection strikes Earth's magnetosphere.
+- [Mariana Trench: The Hadal Abyss & Creatures of the Challenger Deep](https://curiovault.pages.dev/blog/mariana-trench-abyss/): Exploring the deepest point on planet Earth under 1,000 atmospheres of crushing pressure.
+
+## Legal & Editorial Policies
+
+- [About CurioVault](https://curiovault.pages.dev/about/): Editorial standards and mission.
+- [Privacy Policy](https://curiovault.pages.dev/privacy-policy/): GDPR, CCPA, and cookie policies.
+- [Terms of Service](https://curiovault.pages.dev/terms/): Terms of use and Fair Use (17 U.S. Code § 107) commentary policies.
