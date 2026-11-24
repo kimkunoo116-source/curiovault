@@ -1,0 +1,320 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE } from '../consts';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const featuredPost = posts[0];
+const secondaryPosts = posts.slice(1, 3);
+const remainingPosts = posts.slice(3);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`${SITE_TITLE} - ${SITE_TAGLINE}`} description={SITE_DESCRIPTION} />
+	</head>
+	<body class="bg-[#0b0f19] min-h-screen flex flex-col text-slate-200">
+		<Header />
+
+		<main class="grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-10">
+			<!-- Ticker Marquee -->
+			<section class="bg-[#111827] rounded-xl border border-slate-800 p-3 sm:p-4 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+				<div class="flex items-center gap-3 overflow-hidden">
+					<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/30 text-[11px] font-bold uppercase tracking-wider shrink-0">
+						<span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+						FEATURED DISCOVERY
+					</span>
+					{featuredPost && (
+						<a href={`/blog/${featuredPost.id}/`} class="text-xs sm:text-sm font-semibold text-slate-300 hover:text-amber-400 truncate transition">
+							{featuredPost.data.title}
+						</a>
+					)}
+				</div>
+				<span class="text-xs text-slate-400 shrink-0 hidden md:inline">
+					Curated Daily &bull; Visual Storytelling
+				</span>
+			</section>
+
+			<!-- Hero Cinema Story Section -->
+			{featuredPost && (
+				<section class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+					<!-- Big Cinema Card (7 cols) -->
+					<div class="lg:col-span-7">
+						<article class="group relative h-full bg-[#111827] rounded-2xl border border-slate-800 overflow-hidden shadow-2xl hover:border-amber-500/50 transition duration-300 flex flex-col">
+							<a href={`/blog/${featuredPost.id}/`} class="block aspect-16/9 overflow-hidden bg-black relative">
+								{featuredPost.data.heroImage && (
+									typeof featuredPost.data.heroImage === 'string' ? (
+										<img
+											src={featuredPost.data.heroImage}
+											alt={featuredPost.data.title}
+											class="w-full h-full object-cover group-hover:scale-105 transition duration-700 opacity-90 group-hover:opacity-100"
+										/>
+									) : (
+										<Image
+											width={850}
+											height={480}
+											src={featuredPost.data.heroImage}
+											alt={featuredPost.data.title}
+											class="w-full h-full object-cover group-hover:scale-105 transition duration-700 opacity-90 group-hover:opacity-100"
+										/>
+									)
+								)}
+								<div class="absolute inset-0 bg-gradient-to-t from-[#111827] via-transparent to-black/40"></div>
+
+								<!-- Play Icon -->
+								<div class="absolute inset-0 flex items-center justify-center">
+									<div class="w-16 h-16 rounded-full bg-amber-500/90 text-white flex items-center justify-center shadow-2xl shadow-amber-500/30 group-hover:scale-110 transition duration-300 border border-white/20">
+										<svg class="w-7 h-7 translate-x-0.5" fill="currentColor" viewBox="0 0 20 20">
+											<path d="M4.5 3.5v13L16 10l-11.5-6.5z"></path>
+										</svg>
+									</div>
+								</div>
+
+								<!-- Badges -->
+								<div class="absolute top-4 left-4 flex gap-2">
+									<span class="px-2.5 py-1 bg-amber-600 text-white text-[11px] font-bold uppercase tracking-wider rounded-md shadow-md">
+										{featuredPost.data.category || 'Untold Story'}
+									</span>
+									<span class="px-2.5 py-1 bg-black/80 backdrop-blur-xs text-amber-300 text-[11px] font-bold uppercase tracking-wider rounded-md border border-slate-700">
+										⏱️ {featuredPost.data.videoDuration || 'FULL VIDEO'}
+									</span>
+								</div>
+							</a>
+
+							<div class="p-6 sm:p-8 flex flex-col grow justify-between bg-[#111827]">
+								<div>
+									<div class="flex items-center gap-2 text-xs text-slate-400 mb-2">
+										<span class="text-amber-400 font-semibold">{featuredPost.data.category}</span>
+										<span>&bull;</span>
+										<FormattedDate date={featuredPost.data.pubDate} />
+									</div>
+									<h2 class="text-xl sm:text-2xl font-extrabold text-white group-hover:text-amber-400 transition leading-snug mb-3">
+										<a href={`/blog/${featuredPost.id}/`}>
+											{featuredPost.data.title}
+										</a>
+									</h2>
+									<p class="text-slate-300 text-sm leading-relaxed line-clamp-3">
+										{featuredPost.data.description}
+									</p>
+								</div>
+								<div class="mt-5 pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
+									<a href={`/blog/${featuredPost.id}/`} class="font-bold text-amber-400 group-hover:translate-x-1 transition inline-flex items-center gap-1.5">
+										Watch Video & Read Story &rarr;
+									</a>
+									<span class="text-slate-400">CurioVault Feature</span>
+								</div>
+							</div>
+						</article>
+					</div>
+
+					<!-- Secondary Column (5 cols) -->
+					<div class="lg:col-span-5 flex flex-col gap-6 justify-between">
+						{secondaryPosts.map((post) => (
+							<article class="group bg-[#111827] rounded-2xl border border-slate-800 overflow-hidden shadow-xl hover:border-amber-500/40 transition duration-300 flex flex-col sm:flex-row lg:flex-col h-full">
+								<a href={`/blog/${post.id}/`} class="block sm:w-1/2 lg:w-full aspect-16/9 overflow-hidden bg-black relative shrink-0">
+									{post.data.heroImage && (
+										typeof post.data.heroImage === 'string' ? (
+											<img
+												src={post.data.heroImage}
+												alt={post.data.title}
+												class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90 group-hover:opacity-100"
+											/>
+										) : (
+											<Image
+												width={500}
+												height={280}
+												src={post.data.heroImage}
+												alt={post.data.title}
+												class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90 group-hover:opacity-100"
+											/>
+										)
+									)}
+									<span class="absolute top-3 left-3 px-2 py-0.5 bg-black/80 backdrop-blur-xs text-amber-400 text-[10px] font-bold rounded-md border border-slate-700">
+										⏱️ {post.data.videoDuration || 'VIDEO'}
+									</span>
+								</a>
+								<div class="p-5 flex flex-col justify-between grow">
+									<div>
+										<div class="text-[11px] text-slate-400 mb-1 flex items-center gap-2">
+											<span class="text-amber-400 uppercase font-semibold">{post.data.category}</span>
+											<span>&bull;</span>
+											<FormattedDate date={post.data.pubDate} />
+										</div>
+										<h3 class="text-base font-bold text-white group-hover:text-amber-400 transition leading-snug mb-2 line-clamp-2">
+											<a href={`/blog/${post.id}/`}>
+												{post.data.title}
+											</a>
+										</h3>
+										<p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+											{post.data.description}
+										</p>
+									</div>
+									<div class="mt-3 pt-3 border-t border-slate-800 text-right">
+										<a href={`/blog/${post.id}/`} class="text-xs font-semibold text-amber-400 hover:underline">
+											Explore Story &rarr;
+										</a>
+									</div>
+								</div>
+							</article>
+						))}
+					</div>
+				</section>
+			)}
+
+			<!-- Category Filter Pills -->
+			<section class="flex items-center justify-between border-b border-slate-800 pb-3 flex-wrap gap-3">
+				<div class="flex items-center gap-2">
+					<span class="w-2.5 h-5 bg-amber-500 rounded-sm inline-block"></span>
+					<h2 class="text-lg sm:text-xl font-bold text-white uppercase tracking-wide">
+						Latest Stories & Mysteries
+					</h2>
+				</div>
+				<div class="flex items-center gap-2 overflow-x-auto text-xs py-1">
+					<a href="/blog" class="px-3.5 py-1.5 rounded-full font-bold bg-amber-500 text-slate-950">ALL STORIES</a>
+					<a href="/blog" class="px-3.5 py-1.5 rounded-full font-medium bg-[#111827] border border-slate-800 text-slate-300 hover:border-amber-500 hover:text-amber-400 transition">UNTOLD STORIES</a>
+					<a href="/blog" class="px-3.5 py-1.5 rounded-full font-medium bg-[#111827] border border-slate-800 text-slate-300 hover:border-amber-500 hover:text-amber-400 transition">BIZARRE HISTORY</a>
+					<a href="/blog" class="px-3.5 py-1.5 rounded-full font-medium bg-[#111827] border border-slate-800 text-slate-300 hover:border-amber-500 hover:text-amber-400 transition">EARTH & NATURE</a>
+					<a href="/blog" class="px-3.5 py-1.5 rounded-full font-medium bg-[#111827] border border-slate-800 text-slate-300 hover:border-amber-500 hover:text-amber-400 transition">SCIENCE WONDERS</a>
+				</div>
+			</section>
+
+			<!-- 2-Column Section: Grid + Sidebar -->
+			<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+				<!-- Stories Grid (8 cols) -->
+				<section class="lg:col-span-8">
+					<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+						{remainingPosts.map((post) => (
+							<article class="group bg-[#111827] rounded-xl border border-slate-800 overflow-hidden shadow-lg hover:border-amber-500/40 transition duration-300 flex flex-col">
+								<a href={`/blog/${post.id}/`} class="block aspect-16/10 overflow-hidden bg-black relative">
+									{post.data.heroImage && (
+										typeof post.data.heroImage === 'string' ? (
+											<img
+												src={post.data.heroImage}
+												alt={post.data.title}
+												class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90 group-hover:opacity-100"
+											/>
+										) : (
+											<Image
+												width={450}
+												height={280}
+												src={post.data.heroImage}
+												alt={post.data.title}
+												class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90 group-hover:opacity-100"
+											/>
+										)
+									)}
+									<span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 bg-black/80 backdrop-blur-xs text-amber-400 text-[10px] font-bold rounded-sm border border-slate-700">
+										⏱️ {post.data.videoDuration || 'VIDEO'}
+									</span>
+								</a>
+								<div class="p-5 flex flex-col justify-between grow">
+									<div>
+										<div class="text-[11px] text-slate-400 mb-1 flex items-center gap-1.5">
+											<span class="text-amber-400 uppercase font-semibold">{post.data.category}</span>
+											<span>&bull;</span>
+											<FormattedDate date={post.data.pubDate} />
+										</div>
+										<h3 class="text-base font-bold text-white group-hover:text-amber-400 transition leading-snug line-clamp-2 mb-2">
+											<a href={`/blog/${post.id}/`}>
+												{post.data.title}
+											</a>
+										</h3>
+										<p class="text-xs text-slate-400 line-clamp-3 leading-relaxed">
+											{post.data.description}
+										</p>
+									</div>
+									<div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+										<a href={`/blog/${post.id}/`} class="font-bold text-amber-400 group-hover:underline">
+											Read Story &rarr;
+										</a>
+										<span class="text-slate-400">CurioVault</span>
+									</div>
+								</div>
+							</article>
+						))}
+					</div>
+
+					<div class="mt-8 text-center">
+						<a
+							href="/blog"
+							class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#111827] border border-slate-700 text-slate-200 text-xs font-bold shadow-lg hover:border-amber-500 hover:text-amber-400 transition"
+						>
+							Browse Complete Story Archive
+							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+							</svg>
+						</a>
+					</div>
+				</section>
+
+				<!-- Sidebar (4 cols) -->
+				<aside class="lg:col-span-4 space-y-6">
+					<!-- Widget 1: Google AdSense Medium Rectangle -->
+					<div class="bg-[#111827] rounded-xl border border-slate-800 p-4 shadow-xl text-center">
+						<span class="text-[10px] uppercase tracking-wider text-slate-400 block mb-2 font-semibold">
+							Sponsored Discovery
+						</span>
+						<div class="w-full min-h-[250px] bg-[#0b0f19] border border-dashed border-slate-800 rounded-lg flex items-center justify-center p-3 text-xs text-slate-400">
+							<!-- 
+							<ins class="adsbygoogle"
+							     style="display:block"
+							     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+							     data-ad-slot="5544332211"
+							     data-ad-format="rectangle"></ins>
+							<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+							-->
+							<span>[Google AdSense 300x250 Medium Rectangle Unit]</span>
+						</div>
+					</div>
+
+					<!-- Widget 2: About CurioVault -->
+					<div class="bg-[#111827] rounded-xl border border-slate-800 p-5 shadow-xl">
+						<div class="flex items-center gap-2 mb-3">
+							<span class="w-1.5 h-4 bg-amber-500 rounded-sm"></span>
+							<h3 class="font-bold text-white text-xs uppercase tracking-wider">
+								About CurioVault
+							</h3>
+						</div>
+						<p class="text-xs text-slate-400 leading-relaxed mb-4">
+							CurioVault is an independent digital magazine exploring human history, forgotten mysteries, and astonishing scientific discoveries from every corner of the Earth.
+						</p>
+						<a
+							href="/about"
+							class="block text-center w-full py-2.5 px-3 text-xs font-bold bg-[#151d30] hover:bg-amber-950/60 text-slate-300 hover:text-amber-400 rounded-lg border border-slate-800 transition"
+						>
+							Learn More About Our Team
+						</a>
+					</div>
+
+					<!-- Widget 3: Suggest a Story -->
+					<div class="bg-amber-950/20 rounded-xl border border-amber-900/40 p-5 shadow-xl">
+						<div class="flex items-center gap-2 mb-2">
+							<svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
+							</svg>
+							<h3 class="font-bold text-amber-300 text-xs uppercase tracking-wide">
+								Have a Curious Story?
+							</h3>
+						</div>
+						<p class="text-[11px] text-slate-400 leading-relaxed mb-3">
+							Know an astonishing historical event, an unsolved scientific enigma, or a remarkable human journey?
+						</p>
+						<a href="/contact" class="text-[11px] text-amber-400 underline font-bold">
+							Suggest a Story Feature &rarr;
+						</a>
+					</div>
+				</aside>
+			</div>
+		</main>
+
+		<Footer />
+	</body>
+</html>

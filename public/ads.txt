@@ -1,0 +1,3 @@
+# Google AdSense ads.txt
+# Sau khi được duyệt AdSense hoặc có mã Publisher ID, thay thế hoặc thêm dòng theo mẫu:
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

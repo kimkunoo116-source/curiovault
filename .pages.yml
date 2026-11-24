@@ -1,0 +1,51 @@
+# Pages CMS Configuration (https://pagescms.org)
+media:
+  input: public/images
+  output: /images
+
+content:
+  - name: blog
+    label: Stories & Articles
+    type: collection
+    path: src/content/blog
+    format: frontmatter
+    view:
+      fields: [title, category, pubDate]
+      primary: title
+    fields:
+      - name: title
+        label: Article Title
+        type: string
+        required: true
+      - name: description
+        label: Hook / Summary (SEO Meta)
+        type: text
+        required: true
+      - name: pubDate
+        label: Publication Date
+        type: date
+        required: true
+      - name: category
+        label: Category
+        type: select
+        options:
+          - Untold Stories
+          - Bizarre History
+          - Earth & Nature
+          - Science Wonders
+          - Lost Expeditions
+        default: Untold Stories
+        required: true
+      - name: youtubeId
+        label: YouTube Video ID (e.g. dQw4w9WgXcQ or full link)
+        type: string
+      - name: videoDuration
+        label: Video Runtime (e.g. 14:20 or "Full Video")
+        type: string
+        default: "Full Video"
+      - name: heroImage
+        label: Feature Image / Thumbnail
+        type: image
+      - name: body
+        label: Article Story Body
+        type: rich-text

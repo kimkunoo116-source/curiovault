@@ -1,0 +1,125 @@
+---
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+const today = new Date();
+---
+
+<footer class="bg-[#070a12] text-slate-400 border-t border-slate-800/80 mt-20">
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+			<!-- Col 1: Redesigned Logo & Mission -->
+			<div class="space-y-4">
+				<div class="flex items-center gap-2.5">
+					<div class="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 via-amber-500 to-amber-700 p-0.5">
+						<div class="w-full h-full bg-[#070a12] rounded-[6px] flex items-center justify-center">
+							<svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2L3 7v10l9 5 9-5V7l-9-5z"></path>
+								<circle cx="12" cy="11" r="2.5" fill="currentColor"></circle>
+							</svg>
+						</div>
+					</div>
+					<div class="flex items-center">
+						<span class="text-lg font-black text-white tracking-tight font-sans">
+							CURIO<span class="text-amber-400">VAULT</span>
+						</span>
+					</div>
+				</div>
+				<p class="text-xs text-slate-400 leading-relaxed font-sans">
+					{SITE_DESCRIPTION}
+				</p>
+				<p class="text-[11px] text-slate-500 font-mono">
+					Uncovering human wonders, bizarre history, and scientific anomalies.
+				</p>
+			</div>
+
+			<!-- Col 2: Categories -->
+			<div>
+				<h3 class="text-xs font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-2">
+					Explore Topics
+				</h3>
+				<ul class="space-y-2 text-xs">
+					<li>
+						<a href="/blog" class="text-slate-400 hover:text-amber-400 transition flex items-center gap-1.5">
+							<span>&bull;</span> Untold Stories & Lives
+						</a>
+					</li>
+					<li>
+						<a href="/blog" class="text-slate-400 hover:text-amber-400 transition flex items-center gap-1.5">
+							<span>&bull;</span> Bizarre History & Facts
+						</a>
+					</li>
+					<li>
+						<a href="/blog" class="text-slate-400 hover:text-amber-400 transition flex items-center gap-1.5">
+							<span>&bull;</span> Earth & Cosmic Wonders
+						</a>
+					</li>
+					<li>
+						<a href="/blog" class="text-slate-400 hover:text-amber-400 transition flex items-center gap-1.5">
+							<span>&bull;</span> Science & Lost Expeditions
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<!-- Col 3: AdSense Compliance & Legal -->
+			<div>
+				<h3 class="text-xs font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-sky-500 pl-2">
+					Policies & Information
+				</h3>
+				<ul class="space-y-2 text-xs">
+					<li>
+						<a href="/about" class="text-slate-400 hover:text-white transition flex items-center gap-1.5">
+							<span>&bull;</span> About CurioVault
+						</a>
+					</li>
+					<li>
+						<a href="/contact" class="text-slate-400 hover:text-white transition flex items-center gap-1.5">
+							<span>&bull;</span> Contact & Suggest a Story
+						</a>
+					</li>
+					<li>
+						<a href="/privacy-policy" class="text-slate-300 hover:text-amber-400 transition flex items-center gap-1.5 font-medium">
+							<span>&bull;</span> Privacy Policy (GDPR / CCPA)
+						</a>
+					</li>
+					<li>
+						<a href="/terms" class="text-slate-300 hover:text-amber-400 transition flex items-center gap-1.5 font-medium">
+							<span>&bull;</span> Terms of Service & Fair Use
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<!-- Col 4: Story Suggestion / Community Box -->
+			<div>
+				<h3 class="text-xs font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-emerald-500 pl-2">
+					Curator Desk
+				</h3>
+				<p class="text-xs text-slate-400 mb-3 leading-relaxed">
+					CurioVault publishes in-depth visual articles paired with verified public video documentaries and archival research.
+				</p>
+				<a
+					href="/contact"
+					class="inline-flex items-center justify-center w-full px-4 py-2 text-xs font-bold text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition"
+				>
+					Suggest a Story Idea &rarr;
+				</a>
+			</div>
+		</div>
+
+		<!-- Copyright -->
+		<div class="pt-8 border-t border-slate-900 text-xs text-slate-400 flex flex-col md:flex-row justify-between items-center gap-4">
+			<p>
+				&copy; {today.getFullYear()} {SITE_TITLE}. All rights reserved. Companion video features are embedded for educational commentary under 17 U.S. Code § 107.
+			</p>
+			<div class="flex flex-wrap items-center gap-4 text-xs">
+				<a href="/privacy-policy" class="hover:text-slate-200 transition">Privacy Policy</a>
+				<span>&bull;</span>
+				<a href="/terms" class="hover:text-slate-200 transition">Terms of Service</a>
+				<span>&bull;</span>
+				<a href="/sitemap-index.xml" class="hover:text-slate-200 transition">Sitemap</a>
+				<span>&bull;</span>
+				<a href="/robots.txt" class="hover:text-slate-200 transition">Robots.txt</a>
+			</div>
+		</div>
+	</div>
+</footer>

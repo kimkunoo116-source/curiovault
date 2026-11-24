@@ -1,0 +1,155 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={`Contact Us - ${SITE_TITLE}`}
+			description={`Get in touch with the editorial team at ${SITE_TITLE} to submit story ideas, inquiries, or feedback.`}
+		/>
+	</head>
+	<body class="bg-[#0b0f19] min-h-screen flex flex-col text-slate-200">
+		<Header />
+
+		<main class="grow max-w-4xl mx-auto px-4 sm:px-6 py-12">
+			<!-- Header Section -->
+			<div class="mb-10 text-center">
+				<span class="inline-block px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-amber-400 bg-amber-950/60 border border-amber-800/50 rounded-md mb-3">
+					GET IN TOUCH
+				</span>
+				<h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+					Contact & Suggest a Story
+				</h1>
+				<p class="mt-3 text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">
+					Have a fascinating curiosity, question, or story suggestion for our editorial team? We’d love to hear from you.
+				</p>
+			</div>
+
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+				<!-- Contact Info Cards -->
+				<div class="space-y-4 md:col-span-1">
+					<div class="bg-[#111827] p-6 rounded-2xl border border-slate-800 shadow-xl">
+						<div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center mb-3 border border-amber-500/20">
+							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+							</svg>
+						</div>
+						<h3 class="font-bold text-white text-sm mb-1">Editorial Inbox</h3>
+						<p class="text-xs text-slate-400 mb-2">Direct story pitches and inquiries:</p>
+						<a href="mailto:hello@tenmiencuaban.com" class="text-xs font-bold text-amber-400 hover:underline">
+							hello@tenmiencuaban.com
+						</a>
+					</div>
+
+					<div class="bg-[#111827] p-6 rounded-2xl border border-slate-800 shadow-xl">
+						<div class="w-10 h-10 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center mb-3 border border-sky-500/20">
+							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+							</svg>
+						</div>
+						<h3 class="font-bold text-white text-sm mb-1">Response Time</h3>
+						<p class="text-xs text-slate-400">
+							Mon - Fri: 09:00 - 18:00 EST<br />
+							We aim to reply within 1-2 business days.
+						</p>
+					</div>
+
+					<div class="bg-[#111827] p-6 rounded-2xl border border-slate-800 shadow-xl">
+						<div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-3 border border-emerald-500/20">
+							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+							</svg>
+						</div>
+						<h3 class="font-bold text-white text-sm mb-1">Editorial Privacy</h3>
+						<p class="text-[11px] text-slate-400 leading-relaxed">
+							All correspondence sent to our team is treated with utmost respect and standard data privacy.
+						</p>
+					</div>
+				</div>
+
+				<!-- Form Card -->
+				<div class="bg-[#111827] p-6 sm:p-8 rounded-2xl border border-slate-800 shadow-xl md:col-span-2">
+					<h2 class="text-lg font-bold text-white mb-6 pb-2 border-b border-slate-800 flex items-center gap-2">
+						<span class="w-2 h-2 rounded-full bg-amber-400"></span>
+						Send a Message or Story Suggestion
+					</h2>
+
+					<form action="#" method="POST" onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent to the CurioVault team.');" class="space-y-5">
+						<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+							<div>
+								<label for="name" class="block text-xs font-bold text-slate-300 mb-1">
+									Your Name <span class="text-amber-400">*</span>
+								</label>
+								<input
+									type="text"
+									id="name"
+									name="name"
+									required
+									placeholder="Jane Doe"
+									class="w-full px-4 py-2.5 rounded-lg bg-[#0b0f19] border border-slate-700 text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-hidden transition text-sm"
+								/>
+							</div>
+							<div>
+								<label for="email" class="block text-xs font-bold text-slate-300 mb-1">
+									Your Email <span class="text-amber-400">*</span>
+								</label>
+								<input
+									type="email"
+									id="email"
+									name="email"
+									required
+									placeholder="jane@example.com"
+									class="w-full px-4 py-2.5 rounded-lg bg-[#0b0f19] border border-slate-700 text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-hidden transition text-sm"
+								/>
+							</div>
+						</div>
+
+						<div>
+							<label for="subject" class="block text-xs font-bold text-slate-300 mb-1">
+								Topic / Reason for Contact <span class="text-amber-400">*</span>
+							</label>
+							<select
+								id="subject"
+								name="subject"
+								class="w-full px-4 py-2.5 rounded-lg bg-[#0b0f19] border border-slate-700 text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-hidden transition text-sm"
+							>
+								<option value="story">Suggest an Amazing Story / Fact</option>
+								<option value="feedback">General Editorial Feedback</option>
+								<option value="partnership">Media Partnership / Sponsorship</option>
+								<option value="other">Other Inquiry</option>
+							</select>
+						</div>
+
+						<div>
+							<label for="message" class="block text-xs font-bold text-slate-300 mb-1">
+								Message Details <span class="text-amber-400">*</span>
+							</label>
+							<textarea
+								id="message"
+								name="message"
+								rows="5"
+								required
+								placeholder="Share your story details, interesting link, or inquiry here..."
+								class="w-full px-4 py-2.5 rounded-lg bg-[#0b0f19] border border-slate-700 text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-hidden transition text-sm resize-y"
+							></textarea>
+						</div>
+
+						<button
+							type="submit"
+							class="w-full sm:w-auto px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-lg shadow-md hover:shadow-amber-600/30 transition duration-200 text-xs tracking-wider uppercase cursor-pointer"
+						>
+							Send Message &rarr;
+						</button>
+					</form>
+				</div>
+			</div>
+		</main>
+
+		<Footer />
+	</body>
+</html>

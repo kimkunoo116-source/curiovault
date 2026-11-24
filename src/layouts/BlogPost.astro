@@ -1,0 +1,295 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import { SITE_TITLE } from '../consts';
+
+interface Props {
+	title: string;
+	description: string;
+	pubDate: Date;
+	updatedDate?: Date;
+	heroImage?: any;
+	category?: string;
+	videoDuration?: string;
+	youtubeId?: string;
+	quickFacts?: Array<{ label: string; value: string }>;
+	slug?: string;
+}
+
+const {
+	title,
+	description,
+	pubDate,
+	updatedDate,
+	heroImage,
+	category = 'Untold Stories',
+	videoDuration = 'Full Video Feature',
+	youtubeId = 'dQw4w9WgXcQ',
+	quickFacts = [],
+	slug = '',
+} = Astro.props;
+
+// Fetch related articles (excluding current)
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts
+	.filter((p) => p.data.title !== title)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
+
+// Clean up YouTube ID
+let cleanYoutubeId = youtubeId;
+if (youtubeId && youtubeId.includes('v=')) {
+	cleanYoutubeId = youtubeId.split('v=')[1]?.split('&')[0] || youtubeId;
+} else if (youtubeId && youtubeId.includes('youtu.be/')) {
+	cleanYoutubeId = youtubeId.split('youtu.be/')[1]?.split('?')[0] || youtubeId;
+}
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`${title} - ${SITE_TITLE}`} description={description} image={heroImage} />
+	</head>
+
+	<body class="bg-[#0b0f19] min-h-screen flex flex-col text-slate-200">
+		<Header />
+
+		<main class="grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 w-full">
+			<!-- Breadcrumb -->
+			<nav class="flex items-center justify-between text-xs text-slate-400 mb-6 flex-wrap gap-2">
+				<div class="flex items-center gap-2">
+					<a href="/" class="hover:text-amber-400 transition">Stories</a>
+					<span>/</span>
+					<a href="/blog" class="hover:text-amber-400 transition">{category}</a>
+					<span>/</span>
+					<span class="text-slate-300 truncate max-w-xs">{title}</span>
+				</div>
+				<span class="px-2.5 py-1 rounded-full text-[10px] uppercase font-bold tracking-wider bg-amber-950/60 text-amber-400 border border-amber-800/50">
+					{category}
+				</span>
+			</nav>
+
+			<!-- Article Container -->
+			<article class="bg-[#111827] rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+				<header class="p-6 sm:p-10 border-b border-slate-800/80 bg-gradient-to-b from-[#151d30] to-[#111827]">
+					<div class="flex items-center gap-2.5 mb-4 flex-wrap text-xs text-slate-400">
+						<span class="px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-amber-400 bg-amber-950/40 border border-amber-800/50 rounded-sm">
+							{category}
+						</span>
+						<span>&bull;</span>
+						<span class="flex items-center gap-1.5 text-slate-300">
+							<svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+							</svg>
+							{videoDuration}
+						</span>
+						<span>&bull;</span>
+						<span>Published: <FormattedDate date={pubDate} /></span>
+					</div>
+
+					<h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight mb-4">
+						{title}
+					</h1>
+
+					<p class="text-base sm:text-lg text-slate-300 leading-relaxed border-l-4 border-amber-500 pl-4 py-1 bg-slate-900/40 rounded-r-lg">
+						{description}
+					</p>
+				</header>
+
+				<!-- ============================================================== -->
+				<!-- FULL VIDEO COMPANION PLAYER (16:9 Responsive)                  -->
+				<!-- ============================================================== -->
+				<section class="p-4 sm:p-8 bg-[#090d16] border-b border-slate-800">
+					<div class="flex items-center justify-between mb-3 text-xs text-slate-400">
+						<span class="flex items-center gap-2">
+							<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+							<span class="font-bold text-amber-400 uppercase tracking-wider">FULL VIDEO STORY</span>
+						</span>
+						<span class="text-[11px] text-slate-400">Stream in Full HD &bull; Companion Documentary</span>
+					</div>
+
+					<div class="relative w-full aspect-16/9 rounded-xl overflow-hidden bg-black shadow-2xl border border-slate-800">
+						{cleanYoutubeId ? (
+							<iframe
+								class="w-full h-full object-cover"
+								src={`https://www.youtube-nocookie.com/embed/${cleanYoutubeId}?rel=0&modestbranding=1`}
+								title={title}
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+								allowfullscreen
+								loading="lazy"
+							></iframe>
+						) : heroImage ? (
+							typeof heroImage === 'string' ? (
+								<img src={heroImage} alt={title} class="w-full h-full object-cover" />
+							) : (
+								<Image width={1020} height={510} src={heroImage} alt={title} class="w-full h-full object-cover" />
+							)
+						) : (
+							<div class="w-full h-full flex items-center justify-center text-slate-400 text-xs">
+								[Video Player Standby]
+							</div>
+						)}
+					</div>
+				</section>
+
+				<!-- ============================================================== -->
+				<!-- GOOGLE ADSENSE: Vị trí 1 (Dưới khung Video)                     -->
+				<!-- ============================================================== -->
+				<div class="adsense-slot adsense-top px-6 sm:px-10 py-3 bg-[#0d121d] border-b border-dashed border-slate-800 text-center">
+					<div class="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Advertisement</div>
+					<div class="min-h-[90px] flex items-center justify-center text-xs text-slate-400 bg-[#111827] rounded-lg border border-slate-800 p-2">
+						<!-- Bật mã quảng cáo:
+						<ins class="adsbygoogle"
+						     style="display:block"
+						     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+						     data-ad-slot="1234567890"
+						     data-ad-format="auto"
+						     data-full-width-responsive="true"></ins>
+						<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+						-->
+						<span>[Google AdSense Responsive Unit - Position 1: Below Video Player]</span>
+					</div>
+				</div>
+
+				<!-- Quick Facts Callout Box (Optional) -->
+				{quickFacts && quickFacts.length > 0 && (
+					<div class="m-6 sm:m-8 p-5 bg-[#151d30] rounded-xl border border-slate-700/80 shadow-md">
+						<h3 class="text-xs font-bold uppercase tracking-wider text-amber-400 mb-3 flex items-center gap-2">
+							<span class="w-2 h-2 rounded-full bg-amber-400"></span>
+							Quick Story Highlights & Facts
+						</h3>
+						<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+							{quickFacts.map((q) => (
+								<div class="flex items-start gap-2 p-2 rounded-md bg-[#0d121d] border border-slate-800">
+									<span class="font-bold text-slate-400">{q.label}:</span>
+									<span class="text-white">{q.value}</span>
+								</div>
+							))}
+						</div>
+					</div>
+				)}
+
+				<!-- Article Body -->
+				<div class="p-6 sm:p-10">
+					<div class="prose-story max-w-none">
+						<slot />
+					</div>
+				</div>
+
+				<!-- ============================================================== -->
+				<!-- GOOGLE ADSENSE: Vị trí 2 (Giữa bài viết)                        -->
+				<!-- ============================================================== -->
+				<div class="adsense-slot adsense-middle px-6 sm:px-10 py-4 my-2 bg-[#0d121d] border-y border-dashed border-slate-800 text-center">
+					<div class="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Advertisement</div>
+					<div class="min-h-[120px] flex items-center justify-center text-xs text-slate-400 bg-[#111827] rounded-lg border border-slate-800 p-2">
+						<!-- Bật mã quảng cáo:
+						<ins class="adsbygoogle"
+						     style="display:block; text-align:center;"
+						     data-ad-layout="in-article"
+						     data-ad-format="fluid"
+						     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+						     data-ad-slot="0987654321"></ins>
+						<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+						-->
+						<span>[Google AdSense In-Article Responsive Banner - Position 2]</span>
+					</div>
+				</div>
+
+				<!-- Author / CurioVault Note -->
+				<div class="m-6 sm:m-10 p-5 rounded-xl bg-[#0d121d] border border-slate-800 flex items-center gap-4">
+					<div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 font-bold text-sm flex items-center justify-center shrink-0 border border-amber-500/20">
+						CV
+					</div>
+					<div class="text-xs text-slate-400 leading-relaxed">
+						<h4 class="font-bold text-slate-200 text-sm mb-1">CurioVault Editorial Desk</h4>
+						<p>
+							Curating extraordinary stories, historical mysteries, and cultural wonders from around the world. All companion videos are embedded directly from official creators and open channels for educational review.
+						</p>
+					</div>
+				</div>
+
+				<!-- ============================================================== -->
+				<!-- GOOGLE ADSENSE: Vị trí 3 (Cuối bài viết)                        -->
+				<!-- ============================================================== -->
+				<div class="adsense-slot adsense-bottom px-6 sm:px-10 py-4 my-2 bg-[#0d121d] border-y border-dashed border-slate-800 text-center">
+					<div class="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Recommended Content</div>
+					<div class="min-h-[100px] flex items-center justify-center text-xs text-slate-400 bg-[#111827] rounded-lg border border-slate-800 p-2">
+						<!-- Bật mã quảng cáo:
+						<ins class="adsbygoogle"
+						     style="display:block"
+						     data-ad-format="autorelaxed"
+						     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+						     data-ad-slot="1122334455"></ins>
+						<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+						-->
+						<span>[Google AdSense Multiplex Recommended Content - Position 3]</span>
+					</div>
+				</div>
+
+				<!-- Related Stories Section -->
+				{relatedPosts.length > 0 && (
+					<section class="p-6 sm:p-10 bg-[#0d121d] border-t border-slate-800">
+						<div class="flex items-center justify-between mb-6">
+							<h3 class="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
+								<span class="w-2 h-2 rounded-full bg-amber-400"></span>
+								More Fascinating Stories
+							</h3>
+							<a href="/blog" class="text-xs text-amber-400 hover:underline">
+								Browse All &rarr;
+							</a>
+						</div>
+						<div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+							{relatedPosts.map((related) => (
+								<a
+									href={`/blog/${related.id}/`}
+									class="group block bg-[#151d30] rounded-xl border border-slate-800 overflow-hidden hover:border-amber-500/50 transition duration-300"
+								>
+									<div class="aspect-16/10 bg-black overflow-hidden relative">
+										{related.data.heroImage && (
+											typeof related.data.heroImage === 'string' ? (
+												<img
+													src={related.data.heroImage}
+													alt={related.data.title}
+													class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90 group-hover:opacity-100"
+												/>
+											) : (
+												<Image
+													width={400}
+													height={250}
+													src={related.data.heroImage}
+													alt={related.data.title}
+													class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90 group-hover:opacity-100"
+												/>
+											)
+										)}
+										<span class="absolute top-2 left-2 px-2 py-0.5 bg-black/80 backdrop-blur-xs text-amber-400 text-[10px] font-bold rounded-sm border border-slate-700">
+											{related.data.videoDuration || 'VIDEO'}
+										</span>
+									</div>
+									<div class="p-4">
+										<span class="text-[10px] uppercase font-bold text-amber-400 block mb-1">
+											{related.data.category}
+										</span>
+										<h4 class="text-sm font-bold text-white group-hover:text-amber-400 line-clamp-2 transition leading-snug">
+											{related.data.title}
+										</h4>
+										<span class="mt-2 text-[11px] text-slate-400 block">
+											<FormattedDate date={related.data.pubDate} />
+										</span>
+									</div>
+								</a>
+							))}
+						</div>
+					</section>
+				)}
+			</article>
+		</main>
+
+		<Footer />
+	</body>
+</html>
