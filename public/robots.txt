@@ -17,4 +17,4 @@ Allow: /
 # Cloudflare Content-Signal Policy
 Content-Signal: search=yes, ai-input=yes, ai-train=no
 
-Sitemap: https://curiovault.pages.dev/sitemap-index.xml
+Sitemap: https://curiovault.site/sitemap-index.xml
